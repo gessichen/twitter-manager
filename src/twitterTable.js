@@ -401,20 +401,26 @@ const TwitterListTable= () => {
                       {customer.currency}
                     </TableCell> */}
                     <TableCell align="right">
-                      {currentTab == "added" ? 
-                      (<IconButton onClick={() => {
+
+                      <IconButton onClick={() => {
                         axios({
-                          method: "delete",
-                          url: "https://spl-it.xyz/twitterspy/api/v1/vname?vname=" + twitter,
+                          method: "post",
+                          url: "https://spl-it.xyz/twitterspy/api/v1/vname",
+                          data: {
+                            vname: twitter,
+                            status: 3
+                          },
+                          headers: {
+                            'Content-Type': 'application/json'
+                          }
                         })
-                        .then((data) => {
+                        .then(() => {
                           getTwitters();
                         })
                       }}>
                          <Delete />
-                      </IconButton>): (
+                      </IconButton>{ currentTab==="new" && 
                       <IconButton onClick={() => {
-                        console.log(1);
                         axios({
                           method: "post",
                           url: "https://spl-it.xyz/twitterspy/api/v1/vname",
@@ -431,8 +437,7 @@ const TwitterListTable= () => {
                         })
                       }}>
                          <Add />
-                      </IconButton>)
-                    } 
+                      </IconButton>}
                     </TableCell>
 
                   </TableRow>
