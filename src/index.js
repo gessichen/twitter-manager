@@ -3,10 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import GameContracts from './gameContracts';
+import AddGame from './addGame';
+import EditGame from './editGame';
+import GameData from './gameData';
+import StarSharks from './starSharks';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/game" element={<GameContracts />} />
+        <Route path="/addgame" element={<AddGame />} />
+        <Route path="/editgame" element={<EditGame />} />
+        <Route path="/gamedata" element={<GameData />} />
+        <Route path="/starsharks" element={<StarSharks />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

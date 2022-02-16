@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs';
 
 import TwitterListTable from './twitterTable';
 import EventListTable from './eventsTable';
+import GameTable from './gameTable';
 import useMounted from './useMounted';
 
 
@@ -20,6 +21,10 @@ const tabs = [
     label: 'Events',
     value: 'events'
   },
+  {
+    label: 'Contracts',
+    value: 'contracts'
+  },
 ];
 
 function App() {
@@ -29,6 +34,16 @@ function App() {
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
+
+  const currentComp = React.useMemo(() => {
+    if(currentTab === "accounts") {
+      return <TwitterListTable />
+    } else if(currentTab === "events") {
+      return <EventListTable />
+    } else {
+      return <GameTable />
+    }
+  }, [currentTab])
   
   return (
     <div className="App">
@@ -52,7 +67,7 @@ function App() {
         </Tabs>
       </Box>
       <Box sx={{marginLeft: 10, marginRight: 10, marginTop: -8}}>
-        { currentTab==="accounts" ? <TwitterListTable /> : <EventListTable /> }
+        { currentComp }
       </Box>
     </div>
   );
