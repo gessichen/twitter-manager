@@ -15,6 +15,10 @@ const GameTable = () => {
 
   const mounted = useMounted(); 
 
+  const urlPrefix = window.location.protocol + "//" + window.location.host;
+
+  console.log(urlPrefix);
+
   const getGames = React.useCallback(async () => {
     try {
       const data = await axios.get("https://spl-it.xyz/gamefidata/api/v1/game_proj");
@@ -39,7 +43,7 @@ const GameTable = () => {
       <Scrollbar>
         <Box sx={{ minWidth: 700 }}>
           <IconButton onClick={() => {
-            window.open("http://localhost:3000/addgame");
+            window.open(urlPrefix + "/addgame");
           }}>
               <Add /> Add New Game
           </IconButton>
@@ -48,7 +52,7 @@ const GameTable = () => {
             <>
             <div style={{display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "row"}}>
               <div style={{display: "flex", justifyContent: "start", margin: "12px", width: '200px', cursor: 'pointer'}} onClick={()=>{
-                window.open(`http://localhost:3000/editgame?game_id=${g.game_id}&chain=${g.chain}&game_name=${g.game_name}`);
+                window.open(`${urlPrefix}/editgame?game_id=${g.game_id}&chain=${g.chain}&game_name=${g.game_name}`);
               }}>
                 {`${g.game_name}`}
               </div>
@@ -57,7 +61,7 @@ const GameTable = () => {
               </div>
               <div style={{marginLeft: 'auto'}} >
               <IconButton style={{marginLeft: 'auto'}} onClick={() => {
-                window.open(`http://localhost:3000/gamedata?game_id=${g.game_id}`);
+                window.open(`${urlPrefix}/gamedata?game_id=${g.game_id}`);
               }}>
                   <LineAxis />
               </IconButton>
