@@ -22,7 +22,7 @@ const GameTable = () => {
       console.log(data);
 
       if (mounted.current) {
-        setGames(data.data.games);       
+        setGames(data.data.games ? data.data.games: []);       
       }
     } catch (err) {
       console.error(err);
