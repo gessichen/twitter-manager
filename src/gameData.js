@@ -25,7 +25,8 @@ const GameData = () => {
     const [dauStart, setDauStart] = React.useState(dayBeforeStr);
     const [dauEnd, setDauEnd] = React.useState(nowStr);
 
-    const [gameData, setGameData] = React.useState([]);
+    const [dauData, setDauData] = React.useState([]);
+    const [trxData, setTrxData] = React.useState([]);
 
     const search = window.location.search;
     const gameIdProp = new URLSearchParams(search).get("game_id");
@@ -74,11 +75,30 @@ const GameData = () => {
                       })
                       .then((r) => {
                         const data = r.data.data.map((g) => (
-                        {   date: (new Date(g.date * 1000)).toISOString().split('T')[0],
+                        {   date: (new Date(g.date * 1000)).toISOString().split('T')[0].substr(5),
                             dau: g.dau
                         }
                         ));
-                        setGameData(data);
+                        setDauData(data);
+                      })
+                      .catch((e) => {
+                          alert(e);
+                      })
+
+                      axios({
+                        method: "get",
+                        url: `https://spl-it.xyz/gamefidata/api/v1/trx?gameid=${gameId}&start=${dauStart}&end=${dauEnd}`,
+                        headers: {
+                          'Content-Type': 'application/json'
+                        }
+                      })
+                      .then((r) => {
+                        const data = r.data.data.map((g) => (
+                        {   date: (new Date(g.date * 1000)).toISOString().split('T')[0].substr(5),
+                            trx: g.count
+                        }
+                        ));
+                        setTrxData(data);
                       })
                       .catch((e) => {
                           alert(e);
@@ -89,7 +109,7 @@ const GameData = () => {
             </Button>
             <Paper>
                 <Chart
-                data={gameData}
+                data={dauData}
                 >
                 <ArgumentAxis />
                 <ValueAxis />
@@ -97,7 +117,18 @@ const GameData = () => {
                 <LineSeries valueField="dau" argumentField="date" />
                 </Chart>
             </Paper>
-        </Box>
+
+            <Paper>
+                <Chart
+                data={trxData}
+                >
+                <ArgumentAxis />
+                <ValueAxis />
+
+                <LineSeries valueField="trx" argumentField="date" />
+                </Chart>
+            </Paper>        
+          </Box>
       </Scrollbar>
     </Card>
   );
